@@ -4,9 +4,9 @@ namespace LDtkTypes.TestWorld;
 
 public enum AnExternEnum
 {
-    Value1,
-    Value2,
-    Value3,
-    Value4,
+	Value1,
+	Value2,
+	Value3,
+	Value4,
 }
 #pragma warning restore

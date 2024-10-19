@@ -5,8 +5,8 @@ namespace LDtkTypes;
 #pragma warning disable
 public enum EnemyType
 {
-    YellowBee,
-    BlueBee,
-    Slug,
+	YellowBee,
+	BlueBee,
+	Slug,
 }
 #pragma warning restore

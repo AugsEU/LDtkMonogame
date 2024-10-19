@@ -4,9 +4,9 @@ namespace LDtkTypes.TestWorld;
 
 public enum SomeEnum
 {
-    A,
-    B,
-    C,
-    D,
+	A,
+	B,
+	C,
+	D,
 }
 #pragma warning restore
