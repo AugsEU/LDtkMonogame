@@ -39,6 +39,25 @@ public class LDtkIntGrid
 		}
 	}
 
+
+	/// <summary>
+	/// Convert values to 2D array
+	/// </summary>
+	public int[,] Get2DArray()
+	{
+		int[,] array2D = new int[GridSize.X, GridSize.Y];
+
+		for (int x = 0; x < GridSize.X; ++x)
+		{
+			for (int y = 0; y < GridSize.Y; ++y)
+			{
+				array2D[x, y] = GetValueAt(x, y);
+			}
+		}
+
+		return array2D;
+	}
+
 	/// <summary> Gets the int value at location and return 0 if out of bounds. </summary>
 	public int GetValueAt(Point position)
 	{
