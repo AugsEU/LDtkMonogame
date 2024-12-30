@@ -61,11 +61,11 @@ public class BaseGenerator(LDtkFileFull ldtkFile, Options options)
 			{
 				if (Commented && i == 0)
 				{
-					_ = FileContents.Append("    //  ");
+					_ = FileContents.Append("\t//  ");
 				}
 				else
 				{
-					_ = FileContents.Append("    ");
+					_ = FileContents.Append("\t");
 				}
 			}
 		}
