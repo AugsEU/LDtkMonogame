@@ -194,7 +194,22 @@ public partial class LDtkLevel
 		return [.. entities];
 	}
 
-	T GetEntityFromInstance<T>(EntityInstance entityInstance)
+	public List<EntityInstance> GetEntityInstances()
+	{
+		List<EntityInstance> entities = new();
+
+		foreach (LayerInstance layer in LayerInstances ?? Array.Empty<LayerInstance>())
+		{
+			if (layer._Type == LayerType.Entities)
+			{
+				entities.AddRange(layer.EntityInstances);
+			}
+		}
+
+		return entities;
+	}
+
+	public T GetEntityFromInstance<T>(EntityInstance entityInstance)
 		where T : new()
 	{
 		T entity = new();
