@@ -16,7 +16,8 @@ public class ClassGenerator(LDtkFileFull ldtkFile, Options options) : BaseGenera
 		// Entity Classes
 		foreach (EntityDefinition e in LDtkFile.Defs.Entities)
 		{
-			GenClass(e.Identifier, "Entities", e);
+			string modEntityName = string.Format("{0}LDtkData", e.Identifier);
+			GenClass(modEntityName, "Entities", e);
 		}
 	}
 

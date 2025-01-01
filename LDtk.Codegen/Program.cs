@@ -71,6 +71,7 @@ public static class Program
 		new ClassGenerator(file, opt).Generate();
 		new EnumGenerator(file, opt).Generate();
 		new IidGenerator(file, opt).Generate();
+		new GameObjectFactoryGenerator(file, opt).Generate();
 	}
 }
 
