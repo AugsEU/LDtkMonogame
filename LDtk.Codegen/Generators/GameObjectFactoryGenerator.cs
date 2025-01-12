@@ -17,6 +17,7 @@ public class GameObjectFactoryGenerator(LDtkFileFull ldtkFile, Options options) 
 		Line("#pragma warning disable");
 		Blank();
 		Line("using LDtk;");
+		Line("using System.Collections.Generic;");
 		Blank();
 	}
 
@@ -27,10 +28,12 @@ public class GameObjectFactoryGenerator(LDtkFileFull ldtkFile, Options options) 
 		Line("public static class GameObjectFactory");
 		StartBlock();
 		{
+			AddCustomDataCache();
+
 			Line("public static MGameObject FromLDtkEntity(LDtkLevel levelData, LDtk.EntityInstance entityInstance)");
 			StartBlock();
 			{
-				Line("CustomLevelData customData = levelData.GetCustomFields<CustomLevelData>();");
+				Line("CustomLevelData customData = GetCustomLevelData(levelData);");
 				Line("");
 				Line("Vector2 overridePos = Vector2.Zero;");
 				Line("if (customData is not null)");
@@ -39,6 +42,7 @@ public class GameObjectFactoryGenerator(LDtkFileFull ldtkFile, Options options) 
 					Line("overridePos = new Vector2(customData.OverrideX, customData.OverrideY);");
 				}
 				EndBlock();
+				Line("overridePos += entityInstance.Px.ToVector2();");
 
 				Line("");
 				Line("");
@@ -75,11 +79,45 @@ public class GameObjectFactoryGenerator(LDtkFileFull ldtkFile, Options options) 
 		{
 			string dataIdentifier = string.Format("{0}LDtkData", e.Identifier);
 			Line(string.Format("{0} data = levelData.GetEntityFromInstance<{0}>(entityInstance);", dataIdentifier));
-			Line("data.Position += overridePos;");
+			Line("data.Position = overridePos;");
 			Line("");
 			Line(string.Format("return new {0}(data);", e.Identifier));
 		}
 		EndBlock();
 		Line("break;");
+	}
+
+	void AddCustomDataCache()
+	{
+		string code = """"
+
+	public static Dictionary<LDtkLevel, CustomLevelData> sCustomDataCache = new();
+	public static void WarmCache(LDtkLevel levelData)
+	{
+		if (sCustomDataCache.ContainsKey(levelData))
+		{
+			return;
+		}
+
+		CustomLevelData customData = levelData.GetCustomFields<CustomLevelData>();
+		sCustomDataCache.Add(levelData, customData);
+	}
+
+	public static CustomLevelData GetCustomLevelData(LDtkLevel levelData)
+	{
+		if (sCustomDataCache.TryGetValue(levelData, out CustomLevelData data))
+		{
+			return data;
+		}
+
+		CustomLevelData customData = levelData.GetCustomFields<CustomLevelData>();
+		sCustomDataCache.Add(levelData, customData);
+
+		return customData;
+	}
+
+
+"""";
+		Line(code);
 	}
 }

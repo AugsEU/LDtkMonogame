@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
 [DebuggerDisplay("Identifier: {Identifier} Pos: {Position} Size: {Size} Path: {FilePath}")]
-public partial class LDtkLevel
+public partial class LDtkLevel : IEquatable<LDtkLevel>
 {
 	/// <summary> Gets or sets the absolute filepath to the level. </summary>
 	[JsonIgnore]
@@ -232,5 +232,34 @@ public partial class LDtkLevel
 	public bool Contains(Point point)
 	{
 		return point.X >= Position.X && point.Y >= Position.Y && point.X <= Position.X + Size.X && point.Y <= Position.Y + Size.Y;
+	}
+
+	/// <summary>
+	/// Get the hashcode.
+	/// </summary>
+	public override int GetHashCode()
+	{
+		return Iid.GetHashCode();
+	}
+
+	/// <summary>
+	/// Equals other object?
+	/// </summary>
+	public override bool Equals(object? obj)
+	{
+		return Equals(obj as EntityInstance);
+	}
+
+	/// <summary>
+	/// Equals other level?
+	/// </summary>
+	public bool Equals(LDtkLevel? other)
+	{
+		if (other is null)
+		{
+			return false;
+		}
+
+		return other.Iid == Iid;
 	}
 }
