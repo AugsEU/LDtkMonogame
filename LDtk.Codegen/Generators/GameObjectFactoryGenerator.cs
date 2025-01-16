@@ -30,18 +30,12 @@ public class GameObjectFactoryGenerator(LDtkFileFull ldtkFile, Options options) 
 		{
 			AddCustomDataCache();
 
-			Line("public static MGameObject FromLDtkEntity(LDtkLevel levelData, LDtk.EntityInstance entityInstance)");
+			Line("public static MGameObject FromLDtkEntity(LDtkLevel levelData, LDtk.EntityInstance entityInstance, Vector2 basePosition)");
 			StartBlock();
 			{
 				Line("CustomLevelData customData = GetCustomLevelData(levelData);");
 				Line("");
-				Line("Vector2 overridePos = Vector2.Zero;");
-				Line("if (customData is not null)");
-				StartBlock();
-				{
-					Line("overridePos = new Vector2(customData.OverrideX, customData.OverrideY);");
-				}
-				EndBlock();
+				Line("Vector2 overridePos = basePosition;");
 				Line("overridePos += entityInstance.Px.ToVector2();");
 
 				Line("");
