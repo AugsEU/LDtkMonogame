@@ -96,4 +96,9 @@ public class LDtkIntGrid
 	{
 		return FromWorldToGridSpace(position.ToVector2());
 	}
+
+	public Vector2 GetWorldSize()
+	{
+		return GridSize.ToVector2() * TileSize;
+	}
 }
